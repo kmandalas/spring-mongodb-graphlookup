@@ -1,5 +1,6 @@
 
-# Create View (you run this once-off)
+# Create View
+To be executed once-off:
 ```
 db.createView("treeView", "node", [
 {
@@ -15,7 +16,14 @@ db.createView("treeView", "node", [
 ]);
 ```
 
-# $graphLookup (changesetId is passed as parameter)
+# Schema indexes
+In MongoDb, add indexes on fields:
+- nodeId
+- changesetId
+- parentId
+
+# $graphLookup
+Get all dimensions and their descendants by changesetId:
 ```
 db.node.aggregate([ 
 { $match: {$and: [ {"parentId": {$eq: []}}, {"changesetId": 2} ]} },
