@@ -76,7 +76,7 @@ public class GraphLookupTests {
   }
 
   @Test
-  public void shouldRenderCorrectly() {
+  public void shouldRenderCorrectly() throws Exception {
 
     final Criteria isDimension = new Criteria("parentId").size(0);
     final Criteria byChangesetId = new Criteria("changesetId").is(14);
@@ -94,7 +94,7 @@ public class GraphLookupTests {
     Aggregation aggregation = Aggregation.newAggregation(matchStage, graphLookupOperation);
 
     Document document = aggregation.toDocument("node", Aggregation.DEFAULT_CONTEXT);
-    System.out.println(document.toJson());
+    System.out.println(TestUtils.prettyPrint(document.toJson()));
 
     List<Document> results = mongoTemplate.aggregate(aggregation, "node", Document.class).getMappedResults();
     assertThat(results.size() == 14);
