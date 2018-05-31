@@ -33,6 +33,7 @@ db.node.aggregate([
     startWith: "$nodeId",
     connectFromField: "nodeId",
     connectToField: "parentId",
+    restrictSearchWithMatch: {"changesetId": 2},
     maxDepth: 0,
     as: "children"
  }
