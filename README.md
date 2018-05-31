@@ -42,7 +42,7 @@ db.node.aggregate([
 ```
 
 # Usage
-- Check application.properties under `src/test/resources`. 
+- Check `src/test/resources/application.properties`. 
 - Boolean property `populate` leads to always inserting data in db for the number of changesets specified by `changesets`.
 - Check and run `com.github.kmandalas.mongodb.GraphLookupTests.shouldRenderCorrectly`
  
