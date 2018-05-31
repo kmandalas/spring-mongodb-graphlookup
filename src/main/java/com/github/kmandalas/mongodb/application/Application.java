@@ -36,30 +36,5 @@ public class Application implements CommandLineRunner {
 
   @Override
   public void run(String... strings) throws Exception {
-
-//    for (int c = 0; c < 20; c++) {
-//      JsonNode myJson = Utils.readJson("static-tree.json");
-//      List<Node> myNodeList = new ArrayList<>();
-//
-//      for (int i = 0; i < myJson.size(); i++) {
-//        JsonNode cnode = myJson.get(i);
-//        Node node = new Node();
-//
-//        node.setNodeId(cnode.get("id").asInt());
-//        node.setName(cnode.get("name").asText());
-//        node.setParentId(setParents((ArrayNode) cnode.get("parentId")));
-//        node.setTenantId(cnode.get("tenantId").asInt());
-//        node.setType(EntityType.Node);
-//        node.setMds(cnode.get("isMds").asBoolean());
-//        // node.setChangesetId(cnode.get("changesetId").asInt());
-//        node.setChangesetId(c);
-//
-//        myNodeList.add(node);
-//      }
-//
-//      nodeRepository.saveAll(myNodeList);
-//    }
-//
-//    System.out.println("Import finished.");
   }
 }
