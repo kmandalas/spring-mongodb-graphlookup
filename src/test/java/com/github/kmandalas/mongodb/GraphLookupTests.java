@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.kmandalas.mongodb.application.Application.setParents;
+import static com.github.kmandalas.mongodb.application.Utils.setParents;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(SpringRunner.class)
