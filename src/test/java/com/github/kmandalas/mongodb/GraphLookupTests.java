@@ -33,7 +33,7 @@ public class GraphLookupTests {
 
     final Criteria isDimension = new Criteria("parentId").size(0);
     final Criteria byChangesetId = new Criteria("changesetId").is(14);
-    final MatchOperation matchStage = Aggregation.match(isDimension.andOperator(byChangesetId));
+    final MatchOperation matchStage = Aggregation.match(byChangesetId.andOperator(isDimension));
 
     GraphLookupOperation graphLookupOperation = GraphLookupOperation.builder() //
             .from("treeView") //
@@ -41,6 +41,7 @@ public class GraphLookupTests {
             .connectFrom("nodeId") //
             .connectTo("parentId") //
             .maxDepth(0) //
+            .restrict(new Criteria("changesetId").is(14))
             .as("children");
 
     Aggregation aggregation = Aggregation.newAggregation(matchStage, graphLookupOperation);
