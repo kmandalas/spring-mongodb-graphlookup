@@ -17,7 +17,7 @@ db.createView("treeView", "node", [
 ```
 
 # Schema indexes
-In MongoDb, add indexes on fields:
+In MongoDB, add indexes on fields:
 - nodeId
 - changesetId
 - parentId
