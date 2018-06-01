@@ -1,3 +1,10 @@
+# Description
+This is an initial setup of a mini-app for testing tree/hierarchical data traversal with MongoDB.
+
+# References
+- https://docs.mongodb.com/manual/applications/data-models-tree-structures/
+- https://www.slideshare.net/mongodb/webinar-working-with-graph-data-in-mongodb
+- https://docs.mongodb.com/manual/reference/operator/aggregation/graphLookup/
 
 # Create View
 To be executed once-off:
@@ -45,6 +52,3 @@ db.node.aggregate([
 - Check [src/test/resources/application.properties](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/src/test/resources/application.properties) 
 - Boolean property `populate` leads to always inserting data in db for the number of changesets specified by `changesets`.
 - Check and run `com.github.kmandalas.mongodb.GraphLookupTests.shouldRenderCorrectly`
- 
-
-
