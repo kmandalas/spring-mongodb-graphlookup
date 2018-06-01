@@ -1,5 +1,5 @@
 # Description
-Baseline setup of a mini-app for testing tree/hierarchical data retrieval and CRUD operations on Nodes, with MongoDB.
+Baseline setup of a mini-app for testing tree/hierarchical data retrieval and CRUD operations performance with MongoDB.
 
 # References
 - https://docs.mongodb.com/manual/applications/data-models-tree-structures/
