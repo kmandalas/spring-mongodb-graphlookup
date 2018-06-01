@@ -42,7 +42,7 @@ db.node.aggregate([
 ```
 
 # Usage
-- Check `src/test/resources/application.properties`. 
+- Check [src/test/resources/application.properties](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/src/test/resources/application.properties) 
 - Boolean property `populate` leads to always inserting data in db for the number of changesets specified by `changesets`.
 - Check and run `com.github.kmandalas.mongodb.GraphLookupTests.shouldRenderCorrectly`
  
