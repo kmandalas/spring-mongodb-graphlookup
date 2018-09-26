@@ -6,7 +6,42 @@ Baseline setup of a mini-app for testing tree/hierarchical data retrieval and CR
 - https://www.slideshare.net/mongodb/webinar-working-with-graph-data-in-mongodb
 - https://docs.mongodb.com/manual/reference/operator/aggregation/graphLookup/
 
-# Create View
+# $graphLookup example
+Get all dimensions and their descendants by a field named e.g. `changesetId`:
+```
+db.node.aggregate([ 
+{ $match: {$and: [ {"parentId": {$eq: []}}, {"changesetId": 2} ]} },
+{
+ $graphLookup: {
+    from: "node",
+    startWith: "$nodeId",
+    connectFromField: "nodeId",
+    connectToField: "parentId",
+    restrictSearchWithMatch: {"changesetId": 2},
+    as: "children"
+ }
+}
+]);
+```
+
+# Usage
+- Requires docker & docker-compose
+- Apache Maven 3.5.x and above
+- Java 1.8 and above
+
+Run Integration test by executing:
+```    
+mvn clean verify
+```
+
+Run the application normally with:
+```
+./docker-compose up
+```
+    
+# Additional
+
+## Create View
 To be executed once-off:
 ```
 db.createView("treeView", "node", [
@@ -23,32 +58,10 @@ db.createView("treeView", "node", [
 ]);
 ```
 
-# Schema indexes
+## Schema indexes
 In MongoDB, add indexes on fields:
 - nodeId
 - changesetId
 - parentId
 
-# $graphLookup
-Get all dimensions and their descendants by changesetId:
-```
-db.node.aggregate([ 
-{ $match: {$and: [ {"parentId": {$eq: []}}, {"changesetId": 2} ]} },
-{
- $graphLookup: {
-    from: "treeView",
-    startWith: "$nodeId",
-    connectFromField: "nodeId",
-    connectToField: "parentId",
-    restrictSearchWithMatch: {"changesetId": 2},
-    maxDepth: 0,
-    as: "children"
- }
-}
-]);
-```
 
-# Usage
-- Check [src/test/resources/application.properties](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/src/test/resources/application.properties) 
-- Boolean property `populate` leads to always inserting data in db for the number of changesets specified by `changesets`.
-- Check and run `com.github.kmandalas.mongodb.GraphLookupTests.shouldRenderCorrectly`
