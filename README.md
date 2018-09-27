@@ -17,9 +17,9 @@ In order to build, test etc:
 
 # Usage
 When the application starts it loads sample data in MongoDB (see [node.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/node.json)).
-The data are like a "forest of trees" i.e. multiple trees with roots being defined by fields name `changesetId`.
+The data are like a "forest of trees" i.e. multiple trees with roots being identified by fields named as: `changesetId`.
 
-You can have a view of the imported tree-structure by performing an HTTP-GET operation:
+You can have a view of a whole tree from the imported tree-structure by performing an HTTP-GET operation:
 - http://localhost:8080/app/25080022 (TODO: implement the endpoint)
 
 Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
