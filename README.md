@@ -1,5 +1,5 @@
 # Description
-Baseline setup of a mini-app for testing tree/hierarchical data retrieval and CRUD operations performance with MongoDB.
+This a Docker-based mini-app for testing tree/hierarchical data retrieval and CRUD operations performance with MongoDB.
 
 # References
 - https://docs.mongodb.com/manual/applications/data-models-tree-structures/
@@ -40,6 +40,7 @@ Run the application normally with:
 ```
     
 # Additional
+TODO
 
 ## Create View
 To be executed once-off:

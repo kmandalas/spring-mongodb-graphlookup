@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  mongocontainer:
+    image: mongo:3.6.8
+    ports:
+    - 27017:27017
+    command: --smallfiles
+    networks:
+    - net-spring-db
+
+  mongo-init:
+    build: ./mongo-init
+    depends_on:
+    - mongocontainer
+    networks:
+    - net-spring-db
+
+  appcontainer:
+    image: kmandalas/spring-mongodb-graphlookup
+    ports:
+    - 8080:8080
+    depends_on:
+    - mongocontainer
+    networks:
+    - net-spring-db
+
+networks:
+  net-spring-db:
+    driver: bridge
