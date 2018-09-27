@@ -1,5 +1,5 @@
 # Description
-This a Docker-based mini-app for testing tree/hierarchical data retrieval and CRUD operations performance with MongoDB.
+This a simplistic Dockerized Spring Boot app for testing hierarchical data retrieval (and other operations) with MongoDB.
 
 # References
 - https://docs.mongodb.com/manual/applications/data-models-tree-structures/
@@ -14,8 +14,8 @@ db.node.aggregate([
 {
  $graphLookup: {
     from: "node",
-    startWith: "$nodeId",
-    connectFromField: "nodeId",
+    startWith: "$masterId",
+    connectFromField: "masterId",
     connectToField: "parentId",
     restrictSearchWithMatch: {"changesetId": 2},
     as: "children"
@@ -24,10 +24,19 @@ db.node.aggregate([
 ]);
 ```
 
-# Usage
-- Requires docker & docker-compose
+# Prerequisites
+- docker & docker-compose
 - Apache Maven 3.5.x and above
 - Java 1.8 and above
+
+# Usage
+When the application starts it loads sample data in MongoDB (see [node.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/node.json)).
+
+You can have a view of the imported tree-structure by performing am HTTP-GET operation:
+- http://localhost:8080/app/25080022 (TODO: implement the endpoint)
+
+Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
+- http://localhost:8081/app/25080022/st/23978341
 
 Run Integration test by executing:
 ```    
@@ -39,18 +48,18 @@ Run the application normally with:
 ./docker-compose up
 ```
     
-# Additional
+# Additional information
 TODO
 
 ## Create View
-To be executed once-off:
+In case you want to create views, an example is given below (to be executed once-off):
 ```
 db.createView("treeView", "node", [
 {
  $graphLookup: {
     from: "node",
-    startWith: "$nodeId",
-    connectFromField: "nodeId",
+    startWith: "$masterId",
+    connectFromField: "masterId",
     connectToField: "parentId",
     maxDepth: 0,
     as: "children"
@@ -60,9 +69,7 @@ db.createView("treeView", "node", [
 ```
 
 ## Schema indexes
-In MongoDB, add indexes on fields:
-- nodeId
+In MongoDB, indexes on the following fields (based on the sample data) are necessary for achieving performance:
+- masterId
 - changesetId
 - parentId
-
-
