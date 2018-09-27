@@ -1,6 +1,6 @@
 package com.github.kmandalas.mongodb.repository;
 
-import com.github.kmandalas.mongodb.documents.Node;
+import com.github.kmandalas.mongodb.document.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;

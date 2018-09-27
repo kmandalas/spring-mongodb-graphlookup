@@ -1,6 +1,6 @@
 package com.github.kmandalas.mongodb.service;
 
-import com.github.kmandalas.mongodb.documents.Node;
+import com.github.kmandalas.mongodb.document.Node;
 import com.github.kmandalas.mongodb.exception.NotFoundException;
 import com.github.kmandalas.mongodb.object.TreeNode;
 import com.github.kmandalas.mongodb.repository.NodeRepository;

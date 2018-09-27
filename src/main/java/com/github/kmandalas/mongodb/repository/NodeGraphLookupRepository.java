@@ -1,6 +1,6 @@
 package com.github.kmandalas.mongodb.repository;
 
-import com.github.kmandalas.mongodb.documents.Node;
+import com.github.kmandalas.mongodb.document.Node;
 
 import java.util.List;
 import java.util.Optional;

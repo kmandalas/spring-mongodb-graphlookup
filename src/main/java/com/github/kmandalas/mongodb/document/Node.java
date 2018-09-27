@@ -1,5 +1,5 @@
 
-package com.github.kmandalas.mongodb.documents;
+package com.github.kmandalas.mongodb.document;
 
 import com.github.kmandalas.mongodb.enumeration.EntityType;
 import lombok.Getter;
