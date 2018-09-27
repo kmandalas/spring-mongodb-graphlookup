@@ -8,7 +8,10 @@ In order to be able to follow-up better the reasoning, check the following stuff
 - https://docs.mongodb.com/manual/reference/operator/aggregation/graphLookup/
 
 # Prerequisites
+In order to execute the app:
 - docker & docker-compose
+
+In order to build, test etc:
 - Apache Maven 3.5.x and above
 - Java 1.8 and above
 
