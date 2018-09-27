@@ -2,27 +2,10 @@
 This a simplistic Dockerized Spring Boot app for testing hierarchical data retrieval (and other operations) with MongoDB.
 
 # References
+In order to be able to follow-up better the reasoning, check the following stuff:
 - https://docs.mongodb.com/manual/applications/data-models-tree-structures/
 - https://www.slideshare.net/mongodb/webinar-working-with-graph-data-in-mongodb
 - https://docs.mongodb.com/manual/reference/operator/aggregation/graphLookup/
-
-# $graphLookup example
-Get all dimensions and their descendants by a field named e.g. `changesetId`:
-```
-db.node.aggregate([ 
-{ $match: {$and: [ {"parentId": {$eq: []}}, {"changesetId": 2} ]} },
-{
- $graphLookup: {
-    from: "node",
-    startWith: "$masterId",
-    connectFromField: "masterId",
-    connectToField: "parentId",
-    restrictSearchWithMatch: {"changesetId": 2},
-    as: "children"
- }
-}
-]);
-```
 
 # Prerequisites
 - docker & docker-compose
@@ -49,7 +32,24 @@ Run the application normally with:
 ```
     
 # Additional information
-TODO
+
+## $graphLookup example
+Get all dimensions and their descendants by a field named e.g. `changesetId`:
+```
+db.node.aggregate([ 
+{ $match: {$and: [ {"parentId": {$eq: []}}, {"changesetId": 2} ]} },
+{
+ $graphLookup: {
+    from: "node",
+    startWith: "$masterId",
+    connectFromField: "masterId",
+    connectToField: "parentId",
+    restrictSearchWithMatch: {"changesetId": 2},
+    as: "children"
+ }
+}
+]);
+```
 
 ## Create View
 In case you want to create views, an example is given below (to be executed once-off):
