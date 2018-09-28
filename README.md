@@ -96,6 +96,6 @@ In MongoDB, indexes on the following fields (based on the sample data) are neces
 
 ## Under investigation
 - [ ] the usage/reliability of `docker-compose-maven-plugin`
-- [ ] why the imported data remain attached to the MongoDB container although no volume is explicitly mounted etc.
+- [x] why the imported data remain attached to the MongoDB container although no volume is explicitly mounted etc. (use `docker-compose down` and not Ctrl-C)
 - [ ] the integration tests are not pushed yet
 - [ ] pending endpoints
