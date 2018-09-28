@@ -13,6 +13,12 @@ public class NodeController {
   @Autowired
   NodeService nodeService;
 
+
+  @GetMapping(value = "/app/{changesetId}")
+  public ResponseEntity getFullTree(@PathVariable("changesetId") int changesetId) throws Exception {
+    return ResponseEntity.ok(nodeService.getFullTree(changesetId));
+  }
+
   @GetMapping(value = "/app/{changesetId}/st/{nodeId}")
   public ResponseEntity getSubtree(@PathVariable("changesetId") int changesetId, @PathVariable("nodeId") int nodeId) throws Exception {
     return ResponseEntity.ok(nodeService.getSubTree(changesetId, nodeId));

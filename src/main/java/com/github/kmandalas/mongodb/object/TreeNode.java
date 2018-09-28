@@ -33,6 +33,7 @@ public class TreeNode implements Serializable {
 
   @DiffIgnore
   private List<Integer> parentId;
+
   private List<TreeNode> children;
 
   @DiffIgnore
