@@ -26,7 +26,7 @@ The only "hierarchical" information we need to maintain in the database is the i
 Method	| Path	| Description
 ------------- | ------------------------- | ------------- |
 GET	| /app/{changesetId}	| retrieve a whole tree by changesetId
-GET	| /app/{changesetId/set/{masterId}}	| retrieve a sub-tree of a changesetId, starting from the node with a given id
+GET	| /app/{changesetId}/set/{masterId}}	| retrieve a sub-tree of a changesetId, starting from the node with a given id
 GET | under development | compare subtrees with Javers
 POST | under development | add a new node to a given tree (arbitrary depth)
 PUT | under development | update an existing node
