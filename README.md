@@ -32,13 +32,13 @@ POST | under development | add a new node to a given tree (arbitrary depth)
 PUT | under development | update an existing node
 
 You can have a view of a whole tree from the imported tree-structure by performing an HTTP-GET operation:
-- http://localhost:8080/app/25080022 (TODO: implement the endpoint)
+- http://localhost:8080/app/25080022
 
 Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
 - http://localhost:8081/app/25080022/st/23978341
 
 ## Build/Test
-Run Integration test by executing:
+Run Integration Tests by executing:
 ```    
 mvn clean verify
 ```
