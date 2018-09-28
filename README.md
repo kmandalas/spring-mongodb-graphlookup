@@ -27,6 +27,9 @@ Method	| Path	| Description
 ------------- | ------------------------- | ------------- |
 GET	| /app/{changesetId}	| retrieve a whole tree by changesetId
 GET	| /app/{changesetId/set/{masterId}}	| retrieve a sub-tree of a changesetId, starting from the node with a given id
+GET | under development | compare subtrees with Javers
+POST | under development | add a new node to a given tree (arbitrary depth)
+PUT | under development | update an existing node
 
 You can have a view of a whole tree from the imported tree-structure by performing an HTTP-GET operation:
 - http://localhost:8080/app/25080022 (TODO: implement the endpoint)
