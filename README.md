@@ -29,7 +29,7 @@ Method	| Path	| Description
 ------------- | ------------------------- | ------------- |
 GET	| /app/{changesetId}	| retrieve a whole hierarchical structure by changesetId
 GET	| /app/{changesetId}/set/{masterId}}	| retrieve a sub-tree of a changesetId, starting from the node with a given id
-GET | under development | compare subtrees with Javers
+GET | under development | compare subtrees with [Javers](https://javers.org/)
 POST | under development | add a new node to a given tree (arbitrary depth)
 PUT | under development | update an existing node
 DELETE | under development | delete a node and its descendants
