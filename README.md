@@ -9,7 +9,7 @@ In order to be able to follow-up better the reasoning, check the following stuff
 
 # Prerequisites
 In order to execute the app:
-- :whale: Install Docker and Docker Compose
+- Install Docker and Docker Compose :whale:
 
 In order to build, test etc:
 - Apache Maven 3.5.x and above
