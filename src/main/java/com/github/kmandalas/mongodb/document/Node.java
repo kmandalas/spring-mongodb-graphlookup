@@ -20,16 +20,23 @@ public class Node {
   private String id;
 
   private int masterId;
+
   private int versionId;
 
   private String name;
+
   private EntityType type;
+
   private String modelType;
+
   private boolean isMds;
+
   private int changesetId;
+
   private int tenantId;
 
   private List<Integer> parentId;
+
   private List<Node> children;
 
 }

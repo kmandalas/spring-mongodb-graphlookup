@@ -20,14 +20,22 @@ public class TreeNode implements Serializable {
 
   @Id
   private int masterId;
+
   private int versionId;
 
   private String name;
+
   private EntityType type;
+
+  @JsonIgnore
   private String modelType;
+
+  @JsonIgnore
   private boolean isMds;
+
   @DiffIgnore
   private int changesetId;
+
   @DiffIgnore
   private int tenantId;
 
