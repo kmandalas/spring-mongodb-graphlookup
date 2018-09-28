@@ -90,3 +90,7 @@ In MongoDB, indexes on the following fields (based on the sample data) are neces
 - masterId
 - changesetId
 - parentId
+
+## Under investigation
+- the usage/reliability of `docker-compose-maven-plugin`
+- why the imported data remain attached to the MongoDB container although no volume is explicitly mounted etc.
