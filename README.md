@@ -95,7 +95,7 @@ In MongoDB, indexes on the following fields (based on the sample data) are neces
 - parentId
 
 ## Under investigation
-- [] the usage/reliability of `docker-compose-maven-plugin`
-- [] why the imported data remain attached to the MongoDB container although no volume is explicitly mounted etc.
-- [] the integration tests are not pushed yet
-- [] pending endpoints
+- [ ] the usage/reliability of `docker-compose-maven-plugin`
+- [ ] why the imported data remain attached to the MongoDB container although no volume is explicitly mounted etc.
+- [ ] the integration tests are not pushed yet
+- [ ] pending endpoints
