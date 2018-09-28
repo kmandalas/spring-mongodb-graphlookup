@@ -16,7 +16,7 @@ In order to build, test etc:
 - Java 1.8 and above
 
 # Usage
-When the application starts it loads sample data in MongoDB (see [node.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/node.json)).
+When the application starts it loads sample data in MongoDB (see [nodes.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/nodes.json)).
 The data are like a "forest of trees" i.e. multiple trees under a "virtual root" node with id (`masterId`) having the value "-1".
 There is also the concept of versioning (i.e. different versions of the whole structure), identified by the field: `changesetId`. 
 At the given sample, only one changeset exists.   
