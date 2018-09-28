@@ -9,7 +9,7 @@ In order to be able to follow-up better the reasoning, check the following stuff
 
 # Prerequisites
 In order to execute the app:
-- docker & docker-compose
+- :whale: Install Docker and Docker Compose
 
 In order to build, test etc:
 - Apache Maven 3.5.x and above
@@ -19,7 +19,14 @@ In order to build, test etc:
 When the application starts it loads sample data in MongoDB (see [node.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/node.json)).
 The data are like a "forest of trees" i.e. multiple trees with roots being identified by fields named as: `changesetId`. 
 **Note**: in this particular sample, some nodes can belong to multiple parents (Not to be confused with path enumeration or other approaches). 
-The only "hierarchical" information we need to maintain in the database is the immediate parent(s). 
+The only "hierarchical" information we need to maintain in the database is the immediate parent(s).
+
+## Endpoints 
+
+Method	| Path	| Description
+------------- | ------------------------- | ------------- |
+GET	| /app/{changesetId}	| retrieve a whole tree by changesetId
+GET	| /app/{changesetId/set/{masterId}}	| retrieve a sub-tree of a changesetId, starting from the node with a given id
 
 You can have a view of a whole tree from the imported tree-structure by performing an HTTP-GET operation:
 - http://localhost:8080/app/25080022 (TODO: implement the endpoint)
@@ -27,11 +34,12 @@ You can have a view of a whole tree from the imported tree-structure by performi
 Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
 - http://localhost:8081/app/25080022/st/23978341
 
+## Build/Test
 Run Integration test by executing:
 ```    
 mvn clean verify
 ```
-
+## Execution
 Run the application normally with:
 ```
 ./docker-compose up
