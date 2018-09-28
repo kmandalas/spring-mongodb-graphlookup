@@ -32,6 +32,7 @@ GET	| /app/{changesetId}/set/{masterId}}	| retrieve a sub-tree of a changesetId,
 GET | under development | compare subtrees with Javers
 POST | under development | add a new node to a given tree (arbitrary depth)
 PUT | under development | update an existing node
+DELETE | under development | delete a node and its descendants
 
 You can have a view of a whole tree from the imported tree-structure by performing an HTTP-GET operation:
 - http://localhost:8080/app/25080022
@@ -94,6 +95,7 @@ In MongoDB, indexes on the following fields (based on the sample data) are neces
 - parentId
 
 ## Under investigation
-- the usage/reliability of `docker-compose-maven-plugin`
-- why the imported data remain attached to the MongoDB container although no volume is explicitly mounted etc.
-- the integration tests are not pushed yet
+- [] the usage/reliability of `docker-compose-maven-plugin`
+- [] why the imported data remain attached to the MongoDB container although no volume is explicitly mounted etc.
+- [] the integration tests are not pushed yet
+- [] pending endpoints
