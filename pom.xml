@@ -88,6 +88,8 @@
                 <configuration>
                     <composeFile>${project.basedir}/docker-compose-it.yml</composeFile>
                     <detachedMode>true</detachedMode>
+                    <removeVolumes>true</removeVolumes>
+                    <removeOrphans>true</removeOrphans>
                 </configuration>
                 <executions>
                     <execution>
