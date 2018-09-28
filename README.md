@@ -48,9 +48,15 @@ mvn clean verify
 ## Execution
 Run the application normally with:
 ```
-./docker-compose up
+docker-compose up
 ```
-    
+
+Stop the application with:
+```
+docker-compose down
+```
+This way the containers are disposed and cleanup is performed.
+  
 # Additional information
 
 ## $graphLookup example
