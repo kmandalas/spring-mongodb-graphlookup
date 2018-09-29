@@ -21,7 +21,7 @@ public class NodeServiceImpl implements NodeService {
 
   @Override
   public TreeNode getFullTree(int changesetId) throws Exception {
-    List<Node> nodes = nodeRepository.findDistinctByChangesetId(changesetId);
+    List<Node> nodes = nodeRepository.findDistinctByChangesetId(changesetId).orElseThrow(NotFoundException::new);
 
     List<TreeNode> treeNodes = new ArrayList<>();
     for (Node node : nodes) {
