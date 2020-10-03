@@ -13,7 +13,7 @@ In order to execute the app:
 
 In order to build, test etc:
 - Apache Maven 3.5.x and above
-- Java 1.8 and above
+- Java 11 and above
 
 # Usage
 When the application starts it loads sample data in MongoDB (see [nodes.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/nodes.json)).
