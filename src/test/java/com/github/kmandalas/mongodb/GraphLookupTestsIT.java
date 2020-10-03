@@ -3,23 +3,25 @@ package com.github.kmandalas.mongodb;
 import com.github.kmandalas.mongodb.application.Application;
 import com.github.kmandalas.mongodb.object.TreeNode;
 import com.github.kmandalas.mongodb.service.NodeService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+import static org.assertj.core.api.Assertions.assertThat;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-public class GraphLookupTestsIT {
+class GraphLookupTestsIT {
 
-  @Autowired
-  NodeService nodeService;
+    @Autowired
+    NodeService nodeService;
 
-  @Test
-  public void testSubTreeRetrieval() throws Exception {
-    TreeNode node = nodeService.getSubTree(25080022, 23978341);
-    // TODO...
-  }
+    @Test
+    void testSubTreeRetrieval() throws Exception {
+        TreeNode node = nodeService.getSubTree(25080022, 23978341);
+        assertThat(node).isNotNull();
+    }
 
 }
