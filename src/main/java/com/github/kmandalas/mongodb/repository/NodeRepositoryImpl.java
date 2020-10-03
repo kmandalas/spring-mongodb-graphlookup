@@ -7,15 +7,20 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.GraphLookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class NodeRepositoryImpl implements NodeGraphLookupRepository {
 
-  @Autowired
-  MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
+
+  public NodeRepositoryImpl(MongoTemplate mongoTemplate) {
+    this.mongoTemplate = mongoTemplate;
+  }
 
   @Override
   public Optional<List<Node>> getSubTree(int changesetId, int masterId) throws Exception {

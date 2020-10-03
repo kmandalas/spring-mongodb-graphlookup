@@ -13,19 +13,19 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class TestUtils {
 
-  public static String prettyPrint(String jsonString) throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    Object jsonObject = mapper.readValue(jsonString, Object.class);
+    public static String prettyPrint(String jsonString) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Object jsonObject = mapper.readValue(jsonString, Object.class);
 
-    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
-  }
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
+    }
 
-  public static JsonNode readJson(String path) throws Exception {
-    Reader reader = new InputStreamReader(new ClassPathResource(path).getInputStream(), UTF_8);
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, false);
+    public static JsonNode readJson(String path) throws Exception {
+        Reader reader = new InputStreamReader(new ClassPathResource(path).getInputStream(), UTF_8);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, false);
 
-    return mapper.readTree(reader);
-  }
+        return mapper.readTree(reader);
+    }
 
 }

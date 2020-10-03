@@ -10,18 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NodeController {
 
-  @Autowired
-  NodeService nodeService;
+    @Autowired
+    NodeService nodeService;
 
+    @GetMapping(value = "/app/{changesetId}")
+    public void getFullTree(@PathVariable("changesetId") int changesetId) throws Exception {
+        nodeService.getFullTree(changesetId);
+    }
 
-  @GetMapping(value = "/app/{changesetId}")
-  public ResponseEntity getFullTree(@PathVariable("changesetId") int changesetId) throws Exception {
-    return ResponseEntity.ok(nodeService.getFullTree(changesetId));
-  }
-
-  @GetMapping(value = "/app/{changesetId}/st/{nodeId}")
-  public ResponseEntity getSubtree(@PathVariable("changesetId") int changesetId, @PathVariable("nodeId") int nodeId) throws Exception {
-    return ResponseEntity.ok(nodeService.getSubTree(changesetId, nodeId));
-  }
+    @GetMapping(value = "/app/{changesetId}/st/{nodeId}")
+    public void getSubtree(@PathVariable("changesetId") int changesetId, @PathVariable("nodeId") int nodeId) throws Exception {
+        nodeService.getSubTree(changesetId, nodeId);
+    }
 
 }
