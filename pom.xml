@@ -11,12 +11,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.2.RELEASE</version>
+        <version>2.3.4.RELEASE</version>
     </parent>
 
     <properties>
         <java.version>1.8</java.version>
         <docker.image.prefix>kmandalas</docker.image.prefix>
+        <javers-core.version>5.12.0</javers-core.version>
+        <docker-compose-maven-plugin.version>4.0.0</docker-compose-maven-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -35,29 +38,31 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-core</artifactId>
-            <version>3.9.7</version>
+            <version>${javers-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.9.5</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.5</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <!--
+                The plugin is used to update dependency versions in the project
+                https://www.mojohaus.org/versions-maven-plugin/index.html
+                Usage:
+                mvn versions:update-properties  // Updates all dependencies to their latest versions which use version numbers defined in a property
+                mvn versions:update-parent      // Updates spring boot as parent to its latest release
+                -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -65,7 +70,7 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.4</version>
+                <version>${dockerfile-maven-plugin.version}</version>
                 <configuration>
                     <repository>${docker.image.prefix}/${project.artifactId}</repository>
                     <!--<serverId>docker-hub</serverId>-->
@@ -84,7 +89,7 @@
                 <!-- Used to spin up an integration testing environment -->
                 <groupId>com.dkanejs.maven.plugins</groupId>
                 <artifactId>docker-compose-maven-plugin</artifactId>
-                <version>2.0.1</version>
+                <version>${docker-compose-maven-plugin.version}</version>
                 <configuration>
                     <composeFile>${project.basedir}/docker-compose-it.yml</composeFile>
                     <detachedMode>true</detachedMode>
@@ -111,7 +116,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.0</version>
                 <executions>
                     <execution>
                         <id>integration-test</id>
@@ -132,6 +136,7 @@
             <url>https://repo.spring.io/libs-release</url>
         </repository>
     </repositories>
+
     <pluginRepositories>
         <pluginRepository>
             <id>spring-releases</id>
