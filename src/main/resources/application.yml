@@ -1,5 +1,6 @@
 ---
-spring:
-  data:
-    mongodb:
-      uri: mongodb://mongocontainer:27017/test
+
+logging:
+  level:
+    root: INFO
+    com.github.kmandalas.mongodb: TRACE
