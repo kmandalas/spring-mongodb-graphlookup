@@ -1,5 +1,6 @@
 package com.github.kmandalas.mongodb.controller;
 
+import com.github.kmandalas.mongodb.object.TreeNode;
 import com.github.kmandalas.mongodb.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,13 @@ public class NodeController {
     NodeService nodeService;
 
     @GetMapping(value = "/app/{changesetId}")
-    public void getFullTree(@PathVariable("changesetId") int changesetId) throws Exception {
-        nodeService.getFullTree(changesetId);
+    public ResponseEntity<TreeNode> getFullTree(@PathVariable("changesetId") int changesetId) throws Exception {
+        return ResponseEntity.ok(nodeService.getFullTree(changesetId));
     }
 
     @GetMapping(value = "/app/{changesetId}/st/{nodeId}")
-    public void getSubtree(@PathVariable("changesetId") int changesetId, @PathVariable("nodeId") int nodeId) throws Exception {
-        nodeService.getSubTree(changesetId, nodeId);
+    public ResponseEntity<TreeNode> getSubtree(@PathVariable("changesetId") int changesetId, @PathVariable("nodeId") int nodeId) throws Exception {
+        return ResponseEntity.ok(nodeService.getSubTree(changesetId, nodeId));
     }
 
 }
