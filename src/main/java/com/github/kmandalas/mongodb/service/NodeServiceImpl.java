@@ -7,6 +7,7 @@ import com.github.kmandalas.mongodb.repository.NodeRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,7 @@ public class NodeServiceImpl implements NodeService {
         return NodeService.assembleTree(treeNodes, NodeService.DEFAULT_ROOT_NODE_ID);
     }
 
+    @Transactional
     @Override
     public TreeNode getSubTree(int treeId, int nodeId) throws Exception {
         List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);

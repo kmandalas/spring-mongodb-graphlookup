@@ -2,4 +2,5 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/test
+      uri: mongodb://mongo1,mongo2,mongo3/test
+      replica-set-name: rs0

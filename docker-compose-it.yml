@@ -2,20 +2,43 @@ version: '3'
 
 services:
 
-  mongocontainer:
-    image: mongo:3.6.8
+  mongo1:
+    image: mongo:4.4.1
     ports:
     - 27017:27017
-    command: --smallfiles
+    volumes:
+      - ./mongod.conf:/etc/mongod.conf
+    entrypoint: ["mongod","--config","/etc/mongod.conf"]
+    networks:
+    - net-spring-db
+
+  mongo2:
+    image: mongo:4.4.1
+    ports:
+    - 27018:27017
+    volumes:
+      - ./mongod.conf:/etc/mongod.conf
+    entrypoint: ["mongod","--config","/etc/mongod.conf"]
+    networks:
+    - net-spring-db
+
+  mongo3:
+    image: mongo:4.4.1
+    ports:
+    - 27019:27017
+    volumes:
+      - ./mongod.conf:/etc/mongod.conf
+    entrypoint: ["mongod","--config","/etc/mongod.conf"]
+    networks:
+    - net-spring-db
 
   mongo-init:
     build: ./mongo-init
     depends_on:
-    - mongocontainer
+    - mongo1
+    - mongo2
+    - mongo3
 
-  appcontainer:
-    image: kmandalas/spring-mongodb-graphlookup
-    ports:
-    - 8080:8080
-    depends_on:
-    - mongocontainer
+networks:
+  net-spring-db:
+    driver: bridge

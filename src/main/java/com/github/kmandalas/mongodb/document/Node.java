@@ -32,7 +32,7 @@ public class Node {
 
   private List<Integer> parentId;
 
-  @Transient
+//  @Transient
   private List<Node> children;
 
 }

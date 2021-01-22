@@ -3,4 +3,4 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://mongocontainer:27017/test
+      uri: mongodb://mongo1,mongo2,mongo3/test?replicaSet=rs0
