@@ -4,6 +4,7 @@ import com.github.kmandalas.mongodb.document.Node;
 import com.github.kmandalas.mongodb.exception.NotFoundException;
 import com.github.kmandalas.mongodb.object.TreeNode;
 import com.github.kmandalas.mongodb.repository.NodeRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log
 @Service
 public class NodeServiceImpl implements NodeService {
 
@@ -22,8 +24,8 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public TreeNode getFullTree(int changesetId) throws Exception {
-        List<Node> nodes = nodeRepository.findDistinctByChangesetId(changesetId).orElseThrow(NotFoundException::new);
+    public TreeNode getFullTree(int treeId) throws Exception {
+        List<Node> nodes = nodeRepository.findDistinctByTreeId(treeId).orElseThrow(NotFoundException::new);
 
         List<TreeNode> treeNodes = new ArrayList<>();
         for (Node node : nodes) {
@@ -37,8 +39,8 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public TreeNode getSubTree(int changesetId, int nodeId) throws Exception {
-        List<Node> nodes = nodeRepository.getSubTree(changesetId, nodeId).orElseThrow(NotFoundException::new);
+    public TreeNode getSubTree(int treeId, int nodeId) throws Exception {
+        List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
 
         List<TreeNode> flatList = nodes.stream()
                 .map(Node::getChildren)

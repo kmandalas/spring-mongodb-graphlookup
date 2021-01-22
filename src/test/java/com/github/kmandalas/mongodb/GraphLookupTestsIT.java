@@ -20,7 +20,7 @@ class GraphLookupTestsIT {
 
     @Test
     void testSubTreeRetrieval() throws Exception {
-        TreeNode node = nodeService.getSubTree(25080022, 23978341);
+        TreeNode node = nodeService.getSubTree(1001, 5);
         assertThat(node).isNotNull();
     }
 

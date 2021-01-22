@@ -11,15 +11,15 @@ public interface NodeService {
 
     int DEFAULT_ROOT_NODE_ID = -1;
 
-    TreeNode getFullTree(int changesetId) throws Exception;
+    TreeNode getFullTree(int treeId) throws Exception;
 
-    TreeNode getSubTree(int changesetId, int nodeId) throws Exception;
+    TreeNode getSubTree(int treeId, int nodeId) throws Exception;
 
     static TreeNode assembleTree(final List<TreeNode> nodes, final int rootNodeId) {
         final Map<Integer, TreeNode> mapTmp = new LinkedHashMap<>();
         // Save all nodes to a map
         for (final TreeNode current : nodes) {
-            mapTmp.put(current.getMasterId(), current);
+            mapTmp.put(current.getNodeId(), current);
         }
         // Loop and assign parent/child relationships
         for (final TreeNode current : nodes) {

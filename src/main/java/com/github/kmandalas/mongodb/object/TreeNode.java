@@ -21,25 +21,16 @@ import java.util.List;
 public class TreeNode implements Serializable {
 
     @Id
-    private int masterId;
+    private int nodeId;
 
     private int versionId;
 
     private String name;
 
-    private EntityType type;
-
-    @JsonIgnore
-    private String modelType;
-
-    @JsonIgnore
-    private boolean isMds;
+    private EntityType entityType;
 
     @DiffIgnore
-    private int changesetId;
-
-    @DiffIgnore
-    private int tenantId;
+    private int treeId;
 
     @DiffIgnore
     private List<Integer> parentId;

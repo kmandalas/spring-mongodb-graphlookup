@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface NodeRepository extends MongoRepository<Node, Object>, NodeGraphLookupRepository {
 
-  Optional<List<Node>> findDistinctByChangesetId(int changesetId);
+  Optional<List<Node>> findDistinctByTreeId(int treeId);
 
 }
