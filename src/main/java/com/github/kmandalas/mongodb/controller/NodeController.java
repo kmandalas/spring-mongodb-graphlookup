@@ -14,14 +14,14 @@ public class NodeController {
     @Autowired
     NodeService nodeService;
 
-    @GetMapping(value = "/app/{changesetId}")
-    public ResponseEntity<TreeNode> getFullTree(@PathVariable("changesetId") int changesetId) throws Exception {
-        return ResponseEntity.ok(nodeService.getFullTree(changesetId));
+    @GetMapping(value = "/app/{treeId}")
+    public ResponseEntity<TreeNode> getFullTree(@PathVariable("treeId") int treeId) throws Exception {
+        return ResponseEntity.ok(nodeService.getFullTree(treeId));
     }
 
-    @GetMapping(value = "/app/{changesetId}/st/{nodeId}")
-    public ResponseEntity<TreeNode> getSubtree(@PathVariable("changesetId") int changesetId, @PathVariable("nodeId") int nodeId) throws Exception {
-        return ResponseEntity.ok(nodeService.getSubTree(changesetId, nodeId));
+    @GetMapping(value = "/app/{treeId}/st/{nodeId}")
+    public ResponseEntity<TreeNode> getSubtree(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
+        return ResponseEntity.ok(nodeService.getSubTree(treeId, nodeId));
     }
 
 }

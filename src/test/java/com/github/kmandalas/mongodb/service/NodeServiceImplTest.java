@@ -28,16 +28,16 @@ class NodeServiceImplTest {
     @Test
     void getFullTree() throws Exception {
         final Node node = new Node();
-        node.setChangesetId(1);
-        node.setMasterId(NodeService.DEFAULT_ROOT_NODE_ID);
+        node.setTreeId(1);
+        node.setNodeId(NodeService.DEFAULT_ROOT_NODE_ID);
         node.setName("name1");
 
-        when(nodeRepository.findDistinctByChangesetId(1)).thenReturn(Optional.of(Collections.singletonList(node)));
+        when(nodeRepository.findDistinctByTreeId(1)).thenReturn(Optional.of(Collections.singletonList(node)));
 
         final TreeNode fullTree = nodeService.getFullTree(1);
         assertThat(fullTree)
                 .isNotNull()
-                .returns(1, from(TreeNode::getChangesetId))
+                .returns(1, from(TreeNode::getTreeId))
                 .returns("name1", from(TreeNode::getName));
     }
 }

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface NodeGraphLookupRepository {
 
-  Optional<List<Node>> getSubTree(int changesetId, int nodeId) throws Exception;
+  Optional<List<Node>> getSubTree(int treeId, int nodeId) throws Exception;
 
 }
