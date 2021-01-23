@@ -59,14 +59,14 @@ Begin by executing:
 docker-compose up
 ```
 
-In order to load the sample data, run:
+Once the cluster is up, load the sample data, with:
 ```
-TBD...
+docker-compose exec mongo1 mongoimport --host mongo1 --db test --collection nodes --type json --file /tmp/nodes.json --jsonArray
 ```
 
 To bring down the cluster, execute:
 ```
-docker-compose down
+docker-compose down -v
 ```
 This way the containers are disposed and cleanup is performed.
 

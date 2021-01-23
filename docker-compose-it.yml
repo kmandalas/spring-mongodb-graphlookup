@@ -8,8 +8,6 @@ services:
       - 27017:27017
     networks:
       - my-mongo-cluster
-    volumes:
-      - ./mongo-init/data-import/nodes.json:/tmp/nodes.json
 
   mongo2:
     image: mongo:4.4

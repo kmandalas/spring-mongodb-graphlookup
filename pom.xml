@@ -80,7 +80,7 @@
                 <artifactId>docker-compose-maven-plugin</artifactId>
                 <version>${docker-compose-maven-plugin.version}</version>
                 <configuration>
-                    <composeFile>${project.basedir}/docker-compose.yml</composeFile>
+                    <composeFile>${project.basedir}/docker-compose-it.yml</composeFile>
                     <detachedMode>true</detachedMode>
                     <removeVolumes>true</removeVolumes>
                     <removeOrphans>true</removeOrphans>
