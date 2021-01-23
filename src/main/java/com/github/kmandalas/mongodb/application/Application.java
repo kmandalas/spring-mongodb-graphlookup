@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "com.github.kmandalas.mongodb")
-@EnableMongoRepositories(basePackages = "com.github.kmandalas.mongodb.repository")
 public class Application {
 
     public static void main(final String[] args) {

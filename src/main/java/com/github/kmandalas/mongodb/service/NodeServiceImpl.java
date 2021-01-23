@@ -9,9 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Log
@@ -59,6 +58,82 @@ public class NodeServiceImpl implements NodeService {
         flatList.add(root);
 
         return (NodeService.assembleTree(flatList, nodeId));
+    }
+
+    @Override
+    @Transactional
+    public void deleteSubTree(int treeId, int nodeId) throws NotFoundException {
+        List<Node> nodes = nodeRepository.findDistinctByTreeId(treeId).orElseThrow(NotFoundException::new);
+        Set<Node> deleted = nodes.stream()
+                .filter(n -> n.getTreeId() == nodeId)
+                .collect(Collectors.toSet());
+        DeleteUpdateResult deletesUpdates = determineDeletesUpdates(new HashSet<>(nodes), new DeleteUpdateResult(new HashSet<>(), deleted));
+        nodeRepository.deleteById(deletesUpdates.forDelete);
+        nodeRepository.saveAll(deletesUpdates.forUpdate);
+    }
+
+    private DeleteUpdateResult determineDeletesUpdates(
+            Set<Node> nodes,
+            DeleteUpdateResult deleteUpdateResult) {
+
+        Set<Node> currentForDelete = new HashSet<>();
+        Set<Node> currentForUpdate = new HashSet<>();
+
+        deleteUpdateResult
+                .forDelete
+                .forEach(node -> {
+                    Predicate<Node> forDeletePredicate =
+                            n -> n.getParentId().contains(node.getNodeId()) && n.getParentId().size() == 1;
+
+                    Predicate<Node> forUpdatePredicate = n ->
+                            n.getParentId().contains(node.getNodeId()) && n.getParentId().size() > 1;
+
+                    Set<Node> forDelete = nodes
+                            .stream()
+                            .filter(forDeletePredicate)
+                            .collect(Collectors.toSet());
+
+                    currentForDelete.addAll(forDelete);
+
+                    Set<Node> forUpdate = nodes
+                            .stream()
+                            .filter(forUpdatePredicate)
+                            .peek(n -> n.getParentId().remove(node.getNodeId()))
+                            .collect(Collectors.toSet());
+
+                    currentForUpdate.addAll(forUpdate);
+                });
+
+        Set<Node> finalForDelete = new HashSet<>();
+        Set<Node> finalForUpdate = new HashSet<>();
+
+        finalForDelete.addAll(deleteUpdateResult.forDelete);
+        finalForDelete.addAll(currentForDelete);
+
+        finalForUpdate.addAll(deleteUpdateResult.forUpdate);
+        finalForUpdate.addAll(currentForUpdate);
+        finalForUpdate.removeAll(finalForDelete);
+
+        DeleteUpdateResult result = new DeleteUpdateResult(finalForUpdate, finalForDelete);
+
+        if (finalForDelete.size() == deleteUpdateResult.forDelete.size()) {
+            return result;
+        } else {
+            Set<Node> updatedNodes = new HashSet<>(nodes);
+            updatedNodes.removeAll(result.forUpdate); //todo: forDelete?
+            updatedNodes.addAll(result.forUpdate);
+            return determineDeletesUpdates(updatedNodes, result);
+        }
+
+    }
+
+    private class DeleteUpdateResult {
+        Set<Node> forUpdate;
+        Set<Node> forDelete;
+        DeleteUpdateResult(Set<Node> forUpdate, Set<Node> forDelete) {
+            this.forUpdate = forUpdate;
+            this.forDelete = forDelete;
+        }
     }
 
 }

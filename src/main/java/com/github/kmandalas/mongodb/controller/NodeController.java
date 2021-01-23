@@ -4,6 +4,7 @@ import com.github.kmandalas.mongodb.object.TreeNode;
 import com.github.kmandalas.mongodb.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,12 @@ public class NodeController {
     @GetMapping(value = "/app/{treeId}/st/{nodeId}")
     public ResponseEntity<TreeNode> getSubtree(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
         return ResponseEntity.ok(nodeService.getSubTree(treeId, nodeId));
+    }
+
+    @DeleteMapping(value = "/app/{treeId}/st/{nodeId}")
+    public ResponseEntity<Void> deleteSubtree(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
+        nodeService.deleteSubTree(treeId, nodeId);
+        return ResponseEntity.<Void>noContent().build();
     }
 
 }

@@ -7,6 +7,7 @@ services:
       ports:
       - 27017:27017
       volumes:
+        - ./mongo-init/data-import/nodes.json:/tmp/nodes.json
         - ./mongod.conf:/etc/mongod.conf
       entrypoint: ["mongod","--config","/etc/mongod.conf"]
       networks:
