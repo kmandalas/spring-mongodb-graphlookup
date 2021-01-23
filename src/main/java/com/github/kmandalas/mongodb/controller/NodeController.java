@@ -25,9 +25,9 @@ public class NodeController {
         return ResponseEntity.ok(nodeService.getSubTree(treeId, nodeId));
     }
 
-    @DeleteMapping(value = "/app")
-	public String deleteNodes() throws Exception {
-    	nodeService.deleteNodes();
+    @DeleteMapping(value = "/app/{treeId}/{nodeId}")
+	public String deleteNodes(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
+    	nodeService.deleteNodes(treeId, nodeId);
     	return "OK";
 	}
 

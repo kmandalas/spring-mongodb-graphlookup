@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,22 +63,18 @@ public class NodeServiceImpl implements NodeService {
     }
 
 	@Transactional(rollbackFor = Exception.class)
-	public void deleteNodes() throws Exception {
-    	List<Node> nodeList = new ArrayList<>();
-    	Node first = nodeRepository.findDistinctByNodeId(252);
-    	nodeList.add(first);
-		Node second = nodeRepository.findDistinctByNodeId(253);
-		nodeList.add(second);
-		//Node third = nodeRepository.findDistinctByNodeId(254);
-		//nodeList.add(third);
+	public void deleteNodes(int treeId, int nodeId) throws Exception {
+		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
+		var target = nodes.get(0);
+		if (!CollectionUtils.isEmpty(target.getChildren())) {
+			target.getChildren().forEach(n -> {
+				n.setParentId(target.getParentId());
+			});
 
-		nodeRepository.delete(first);
-		nodeRepository.delete(second);
-		//nodeRepository.delete(third);
+			nodeRepository.saveAll(target.getChildren());
+		}
 
-		throw new Exception("Roll me back ya filthy animal!");
-
-		//nodeRepository.deleteAll(nodeList);
+		nodeRepository.delete(target);
 	}
 
 }

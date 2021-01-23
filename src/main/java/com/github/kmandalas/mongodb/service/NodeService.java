@@ -15,7 +15,7 @@ public interface NodeService {
 
     TreeNode getSubTree(int treeId, int nodeId) throws Exception;
 
-    void deleteNodes() throws Exception;
+    void deleteNodes(int treeId, int nodeId) throws Exception;
 
     static TreeNode assembleTree(final List<TreeNode> nodes, final int rootNodeId) {
         final Map<Integer, TreeNode> mapTmp = new LinkedHashMap<>();

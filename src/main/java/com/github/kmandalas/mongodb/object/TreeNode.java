@@ -47,13 +47,14 @@ public class TreeNode implements Serializable {
         this.parents = new ArrayList<>();
     }
 
+    // TODO: throws java.lang.NullPointerException: null and in many cases hierarchies are not fetched correctly
     public void addChild(TreeNode child) {
-        if (!this.children.contains(child) && child != null)
+        if (this.children!= null && !this.children.contains(child) && child != null)
             this.children.add(child);
     }
 
     public void addParent(TreeNode parent) {
-        if (!this.parents.contains(parent) && parent != null)
+        if (this.parents!= null && !this.parents.contains(parent) && parent != null)
             this.parents.add(parent);
     }
 
