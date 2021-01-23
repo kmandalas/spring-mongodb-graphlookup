@@ -20,7 +20,7 @@ In order to build, test etc:
 # Usage
 When the application starts it loads sample data in MongoDB (see [nodes.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/nodes.json)).
 The data are like a "forest of trees" i.e. multiple trees under a "virtual root" node with id (`nodeId`) having the value "-1".
-Each tree is identified by its `treeId`.
+Each tree is identified by its `treeId` and each node by is `nodeId`.
 
 ## Endpoints 
 
@@ -30,7 +30,7 @@ GET	| /app/{treeId}	| retrieve a whole hierarchical structure by treeId
 GET	| /app/{treeId}/set/{nodeId}	| retrieve a sub-tree of a treeId, starting from the node with a given nodeId
 POST | under development | add a new node to a given tree (arbitrary depth)
 PUT | under development | update an existing node
-DELETE | under development | delete a node and its descendants
+DELETE | under development | delete a node (no pruning)
 GET | under development | compare subtrees with [Javers](https://javers.org/)
 
 You can have a view of a whole tree from the imported tree-structure by performing an HTTP-GET operation:
@@ -75,24 +75,6 @@ db.node.aggregate([
 }
 ]);
 ```
-
-## Create View
-In case you want to create views, an example is given below (to be executed once-off):
-```
-db.createView("treeView", "node", [
-{
- $graphLookup: {
-    from: "node",
-    startWith: "nodeId",
-    connectFromField: "masterId",
-    connectToField: "parentId",
-    maxDepth: 0,
-    as: "children"
- }
-}
-]);
-```
-
 ## Schema indexes
 In MongoDB, indexes on the following fields (based on the sample data) are necessary for achieving performance:
 - nodeId
