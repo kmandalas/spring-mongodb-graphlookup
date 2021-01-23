@@ -82,11 +82,11 @@ mvn spring-boot:run
 ## $graphLookup example
 You can try this via Mongo Shell:
 ```
-db.node.aggregate([ 
+db.nodes.aggregate([ 
 { $match: { treeId: 1001, $and: [ { nodeId: 100 } ] } },
 {
  $graphLookup: {
-    from: "node",
+    from: "nodes",
     startWith: "$nodeId",
     connectFromField: "nodeId",
     connectToField: "parentId",
