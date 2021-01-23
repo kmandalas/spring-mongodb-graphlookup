@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.aggregation.GraphLookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class NodeRepositoryImpl implements NodeGraphLookupRepository {
     final MatchOperation matchStage = Aggregation.match(byTreeId.andOperator(byNodeId));
 
     GraphLookupOperation graphLookupOperation = GraphLookupOperation.builder()
-            .from("node")
+            .from("nodes")
             .startWith("$nodeId")
             .connectFrom("nodeId")
             .connectTo("parentId")
@@ -39,7 +40,7 @@ public class NodeRepositoryImpl implements NodeGraphLookupRepository {
     Aggregation aggregation = Aggregation.newAggregation(matchStage, graphLookupOperation);
     // Document document = aggregation.toDocument("node", Aggregation.DEFAULT_CONTEXT);
     // TODO: pretty-print the aggregation command
-    List<Node> results = mongoTemplate.aggregate(aggregation, "node", Node.class).getMappedResults();
+    List<Node> results = mongoTemplate.aggregate(aggregation, "nodes", Node.class).getMappedResults();
     return CollectionUtils.isEmpty(results) ? Optional.empty() : Optional.of(results);
   }
 

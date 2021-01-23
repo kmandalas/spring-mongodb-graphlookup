@@ -18,7 +18,7 @@ In order to build, test etc:
 - Java 11 and above
 
 # Usage
-When the application starts it loads sample data in MongoDB (see [nodes.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/nodes.json)).
+Sample data is provided (see [nodes.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/nodes.json)).
 The data are like a "forest of trees" i.e. multiple trees under a "virtual root" node with id (`nodeId`) having the value "-1".
 Each tree is identified by its `treeId` and each node by is `nodeId`.
 
@@ -39,27 +39,48 @@ You can have a view of a whole tree from the imported tree-structure by performi
 Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
 - http://localhost:8080/app/1001/st/100
 
+
+## Allow cluster connectivity
+Modify your **/etc/hosts** file and add the following 3 entries:
+
+- 127.0.0.1 mongo1
+- 127.0.0.1 mongo2
+- 127.0.0.1 mongo3
+
 ## Build/Test
 Run Integration Tests by executing:
 ```    
 mvn clean verify
 ```
-## Execution
-Run the application normally with:
+
+## Spin-up a MongoDB replica-set
+Begin by executing:
 ```
 docker-compose up
 ```
 
-Stop the application with:
+In order to load the sample data, run:
+```
+TBD...
+```
+
+To bring down the cluster, execute:
 ```
 docker-compose down
 ```
 This way the containers are disposed and cleanup is performed.
-  
+
+
+## Run the application
+Start the application with:
+```
+mvn spring-boot:run
+```
+   
 # Additional information
 
 ## $graphLookup example
-Get all dimensions and their descendants of a whole tree
+You can try this via Mongo Shell:
 ```
 db.node.aggregate([ 
 { $match: { treeId: 1001, $and: [ { nodeId: 100 } ] } },
@@ -75,8 +96,9 @@ db.node.aggregate([
 }
 ]);
 ```
+
 ## Schema indexes
-In MongoDB, indexes on the following fields (based on the sample data) are necessary for achieving performance:
+Indexes on the following fields (based on the sample data) are necessary for achieving performance:
 - nodeId
 - treeId
 - parentId

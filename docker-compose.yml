@@ -1,31 +1,46 @@
 version: '3'
 
 services:
-
-  mongocontainer:
-    image: mongo:3.6.8
+  mongo1:
+    image: mongo:4.4
+    command: mongod --replSet rs0 --port 27017
     ports:
-    - 27017:27017
-    command: --smallfiles
+      - 27017:27017
     networks:
-    - net-spring-db
+      - my-mongo-cluster
 
-  mongo-init:
-    build: ./mongo-init
-    depends_on:
-    - mongocontainer
-    networks:
-    - net-spring-db
-
-  appcontainer:
-    image: kmandalas/spring-mongodb-graphlookup
+  mongo2:
+    image: mongo:4.4
+    command: mongod --replSet rs0 --port 27018
     ports:
-    - 8080:8080
-    depends_on:
-    - mongocontainer
+      - 27018:27018
     networks:
-    - net-spring-db
+      - my-mongo-cluster
+
+  mongo3:
+    image: mongo:4.4
+    command: mongod --replSet rs0 --port 27019
+    ports:
+      - 27019:27019
+    networks:
+      - my-mongo-cluster
+
+  mongosetup:
+    image: mongo:4.4
+    links:
+      - mongo1:mongo1
+      - mongo2:mongo2
+      - mongo3:mongo3
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    volumes:
+      - .:/scripts
+    restart: "no"
+    entrypoint: [ "bash", "/scripts/mongo_setup.sh" ]
+    networks:
+      - my-mongo-cluster
 
 networks:
-  net-spring-db:
-    driver: bridge
+  my-mongo-cluster:

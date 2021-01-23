@@ -7,6 +7,7 @@ import com.github.kmandalas.mongodb.repository.NodeRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +40,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
+	@Transactional(readOnly = true)
     public TreeNode getSubTree(int treeId, int nodeId) throws Exception {
         List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
 
@@ -58,5 +60,24 @@ public class NodeServiceImpl implements NodeService {
 
         return (NodeService.assembleTree(flatList, nodeId));
     }
+
+	@Transactional(rollbackFor = Exception.class)
+	public void deleteNodes() throws Exception {
+    	List<Node> nodeList = new ArrayList<>();
+    	Node first = nodeRepository.findDistinctByNodeId(252);
+    	nodeList.add(first);
+		Node second = nodeRepository.findDistinctByNodeId(253);
+		nodeList.add(second);
+		//Node third = nodeRepository.findDistinctByNodeId(254);
+		//nodeList.add(third);
+
+		nodeRepository.delete(first);
+		nodeRepository.delete(second);
+		//nodeRepository.delete(third);
+
+		throw new Exception("Roll me back ya filthy animal!");
+
+		//nodeRepository.deleteAll(nodeList);
+	}
 
 }
