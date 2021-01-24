@@ -10,6 +10,6 @@ public interface NodeRepository extends MongoRepository<Node, Object>, NodeGraph
 
   Optional<List<Node>> findDistinctByTreeId(int treeId);
 
-  Node findDistinctByTreeIdAndNodeId(int treeId, int nodeId);
+	Optional<Node> findDistinctByTreeIdAndNodeId(int treeId, int nodeId);
 
 }

@@ -17,7 +17,11 @@ public interface NodeService {
 
     void deleteNodes(int treeId, int nodeId) throws Exception;
 
-    static TreeNode assembleTree(final List<TreeNode> nodes, final int rootNodeId) {
+	void create(TreeNode treeNode);
+
+	void update(TreeNode treeNode);
+
+	static TreeNode assembleTree(final List<TreeNode> nodes, final int rootNodeId) {
         final Map<Integer, TreeNode> mapTmp = new LinkedHashMap<>();
         // Save all nodes to a map
         for (final TreeNode current : nodes) {
@@ -39,4 +43,5 @@ public interface NodeService {
         }
         return mapTmp.get(rootNodeId);
     }
+
 }

@@ -4,10 +4,7 @@ import com.github.kmandalas.mongodb.object.TreeNode;
 import com.github.kmandalas.mongodb.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class NodeController {
@@ -26,9 +23,21 @@ public class NodeController {
     }
 
     @DeleteMapping(value = "/app/{treeId}/{nodeId}")
-	public String deleteNodes(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
+	public ResponseEntity<Void> deleteNodes(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
     	nodeService.deleteNodes(treeId, nodeId);
-    	return "OK";
+    	return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping(value = "/app/")
+	public ResponseEntity<Void> create(@RequestBody TreeNode treeNode) {
+		nodeService.create(treeNode);
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping(value = "/app/")
+	public ResponseEntity<Void> update(@RequestBody TreeNode treeNode) {
+		nodeService.update(treeNode);
+		return ResponseEntity.ok().build();
 	}
 
 }
