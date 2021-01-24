@@ -22,7 +22,7 @@ public class NodeRepositoryImpl implements NodeGraphLookupRepository {
   }
 
   @Override
-  public Optional<List<Node>> getSubTree(int treeId, int nodeId) throws Exception {
+  public Optional<List<Node>> getSubTree(int treeId, int nodeId, Long maxDepth) throws Exception {
     final Criteria byNodeId = new Criteria("nodeId").is(nodeId);
     final Criteria byTreeId = new Criteria("treeId").is(treeId);
     final MatchOperation matchStage = Aggregation.match(byTreeId.andOperator(byNodeId));
@@ -33,6 +33,7 @@ public class NodeRepositoryImpl implements NodeGraphLookupRepository {
             .connectFrom("nodeId")
             .connectTo("parentId")
             .restrict(new Criteria("treeId").is(treeId))
+			.maxDepth(maxDepth != null ? maxDepth : Long.MAX_VALUE)
             .as("descendants");
 
     Aggregation aggregation = Aggregation.newAggregation(matchStage, graphLookupOperation);

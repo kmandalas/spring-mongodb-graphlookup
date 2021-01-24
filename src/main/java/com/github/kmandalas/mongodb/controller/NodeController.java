@@ -19,7 +19,7 @@ public class NodeController {
 
     @GetMapping(value = "/app/{treeId}/st/{nodeId}")
     public ResponseEntity<TreeNode> getSubtree(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
-        return ResponseEntity.ok(nodeService.getSubTree(treeId, nodeId));
+        return ResponseEntity.ok(nodeService.getSubTree(treeId, nodeId, null));
     }
 
     @DeleteMapping(value = "/app/{treeId}/{nodeId}")
@@ -34,9 +34,10 @@ public class NodeController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PutMapping(value = "/app/")
-	public ResponseEntity<Void> update(@RequestBody TreeNode treeNode) {
-		nodeService.update(treeNode);
+	@PutMapping(value = "/app/{treeId}/{nodeId}")
+	public ResponseEntity<Void> move(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId, @RequestParam int newParentNodeId)
+			throws Exception {
+		nodeService.move(treeId, nodeId , newParentNodeId);
 		return ResponseEntity.ok().build();
 	}
 

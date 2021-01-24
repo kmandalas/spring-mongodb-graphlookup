@@ -13,13 +13,13 @@ public interface NodeService {
 
     TreeNode getFullTree(int treeId) throws Exception;
 
-    TreeNode getSubTree(int treeId, int nodeId) throws Exception;
+    TreeNode getSubTree(int treeId, int nodeId, Long maxDepth) throws Exception;
 
     void deleteNodes(int treeId, int nodeId) throws Exception;
 
 	void create(TreeNode treeNode);
 
-	void update(TreeNode treeNode);
+	void move(int treeId, int nodeId, int newParentNodeId) throws Exception;
 
 	static TreeNode assembleTree(final List<TreeNode> nodes, final int rootNodeId) {
         final Map<Integer, TreeNode> mapTmp = new LinkedHashMap<>();

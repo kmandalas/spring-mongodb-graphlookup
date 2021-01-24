@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Log
@@ -42,8 +43,8 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
 	@Transactional(readOnly = true)
-    public TreeNode getSubTree(int treeId, int nodeId) throws Exception {
-        List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
+    public TreeNode getSubTree(int treeId, int nodeId, Long maxDepth) throws Exception {
+        List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, null).orElseThrow(NotFoundException::new);
 
         List<TreeNode> flatList = nodes.stream()
                 .map(Node::getDescendants)
@@ -65,7 +66,8 @@ public class NodeServiceImpl implements NodeService {
 	@Override
     @Transactional(rollbackFor = Exception.class)
 	public void deleteNodes(int treeId, int nodeId) throws Exception {
-		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
+		// ... perform validations etc.
+		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, null).orElseThrow(NotFoundException::new);
 		var target = nodes.get(0);
 		if (!CollectionUtils.isEmpty(target.getDescendants())) {
 			target.getDescendants().forEach(n -> n.setParentId(target.getParentId()));
@@ -78,14 +80,33 @@ public class NodeServiceImpl implements NodeService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void create(TreeNode treeNode) {
-    	// todo
+    	// ... check if parent exists etc.
+    	Node node = new Node();
+    	node.setTreeId(treeNode.getTreeId());
+    	node.setParentId(treeNode.getParentId());
+    	node.setName(treeNode.getName());
+    	node.setVersionId(treeNode.getVersionId());
+    	node.setEntityType(treeNode.getEntityType());
+    	node.setNodeId(new Random().nextInt()); // set a unique nodeId based on your policy
+
+    	nodeRepository.save(node);
+    	// iterate children and persist them as well...
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void update(TreeNode treeNode) {
-		// todo
+	public void move(int treeId, int nodeId, int newParentNodeId) throws Exception {
+		// ... perform validations etc.
+		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, 1L).orElseThrow(NotFoundException::new);
+		var target = nodes.get(0);
 
+		if (!CollectionUtils.isEmpty(target.getDescendants())) {
+			target.getDescendants().forEach(n -> n.setParentId(target.getParentId()));
+			nodeRepository.saveAll(target.getDescendants());
+		}
+
+		target.setParentId(List.of(newParentNodeId));
+		nodeRepository.save(target);
 	}
 
 }
