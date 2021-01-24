@@ -67,10 +67,7 @@ public class NodeServiceImpl implements NodeService {
 		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
 		var target = nodes.get(0);
 		if (!CollectionUtils.isEmpty(target.getDescendants())) {
-			target.getDescendants().forEach(n -> {
-				n.setParentId(target.getParentId());
-			});
-
+			target.getDescendants().forEach(n -> n.setParentId(target.getParentId()));
 			nodeRepository.saveAll(target.getDescendants());
 		}
 
