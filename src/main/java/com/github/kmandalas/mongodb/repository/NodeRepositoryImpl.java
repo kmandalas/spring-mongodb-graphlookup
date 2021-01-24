@@ -1,14 +1,12 @@
 package com.github.kmandalas.mongodb.repository;
 
 import com.github.kmandalas.mongodb.document.Node;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.GraphLookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -35,11 +33,10 @@ public class NodeRepositoryImpl implements NodeGraphLookupRepository {
             .connectFrom("nodeId")
             .connectTo("parentId")
             .restrict(new Criteria("treeId").is(treeId))
-            .as("children");
+            .as("descendants");
 
     Aggregation aggregation = Aggregation.newAggregation(matchStage, graphLookupOperation);
-    // Document document = aggregation.toDocument("node", Aggregation.DEFAULT_CONTEXT);
-    // TODO: pretty-print the aggregation command
+
     List<Node> results = mongoTemplate.aggregate(aggregation, "nodes", Node.class).getMappedResults();
     return CollectionUtils.isEmpty(results) ? Optional.empty() : Optional.of(results);
   }

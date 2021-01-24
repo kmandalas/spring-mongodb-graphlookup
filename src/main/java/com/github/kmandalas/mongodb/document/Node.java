@@ -33,6 +33,6 @@ public class Node {
 
   private List<Integer> parentId;
 
-  private List<Node> children;
+  private List<Node> descendants;
 
 }

@@ -46,7 +46,7 @@ public class NodeServiceImpl implements NodeService {
         List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
 
         List<TreeNode> flatList = nodes.stream()
-                .map(Node::getChildren)
+                .map(Node::getDescendants)
                 .flatMap(Collection::stream)
                 .map(node -> {
                     TreeNode tr = new TreeNode();
@@ -66,12 +66,12 @@ public class NodeServiceImpl implements NodeService {
 	public void deleteNodes(int treeId, int nodeId) throws Exception {
 		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId).orElseThrow(NotFoundException::new);
 		var target = nodes.get(0);
-		if (!CollectionUtils.isEmpty(target.getChildren())) {
-			target.getChildren().forEach(n -> {
+		if (!CollectionUtils.isEmpty(target.getDescendants())) {
+			target.getDescendants().forEach(n -> {
 				n.setParentId(target.getParentId());
 			});
 
-			nodeRepository.saveAll(target.getChildren());
+			nodeRepository.saveAll(target.getDescendants());
 		}
 
 		nodeRepository.delete(target);

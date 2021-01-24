@@ -53,7 +53,7 @@ Run Integration Tests by executing:
 mvn clean verify
 ```
 
-## Spin-up a MongoDB replica-set
+## Spin-up a MongoDB replica set
 Begin by executing:
 ```
 docker-compose up
@@ -91,7 +91,7 @@ db.nodes.aggregate([
     connectFromField: "nodeId",
     connectToField: "parentId",
     restrictSearchWithMatch: {"treeId": 1001},
-    as: "children"
+    as: "descendants"
  }
 }
 ]);
