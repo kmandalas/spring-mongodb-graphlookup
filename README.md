@@ -18,7 +18,7 @@ In order to build, test etc:
 - Java 11 and above
 
 # Usage
-When the application starts it loads sample data in MongoDB (see [nodes.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/nodes.json)).
+Sample data is provided (see [nodes.json](https://github.com/kmandalas/spring-mongodb-graphlookup/blob/master/mongo-init/data-import/nodes.json)).
 The data are like a "forest of trees" i.e. multiple trees under a "virtual root" node with id (`nodeId`) having the value "-1".
 Each tree is identified by its `treeId` and each node by is `nodeId`.
 
@@ -39,44 +39,66 @@ You can have a view of a whole tree from the imported tree-structure by performi
 Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
 - http://localhost:8080/app/1001/st/100
 
+
+## Allow cluster connectivity
+Modify your **/etc/hosts** file and add the following 3 entries:
+
+- 127.0.0.1 mongo1
+- 127.0.0.1 mongo2
+- 127.0.0.1 mongo3
+
 ## Build/Test
 Run Integration Tests by executing:
 ```    
 mvn clean verify
 ```
-## Execution
-Run the application normally with:
+
+## Spin-up a MongoDB replica set
+Begin by executing:
 ```
 docker-compose up
 ```
 
-Stop the application with:
+Once the cluster is up, load the sample data, with:
 ```
-docker-compose down
+docker-compose exec mongo1 mongoimport --host mongo1 --db test --collection nodes --type json --file /tmp/nodes.json --jsonArray
+```
+
+To bring down the cluster, execute:
+```
+docker-compose down -v
 ```
 This way the containers are disposed and cleanup is performed.
-  
+
+
+## Run the application
+Start the application with:
+```
+mvn spring-boot:run
+```
+   
 # Additional information
 
 ## $graphLookup example
-Get all dimensions and their descendants of a whole tree
+You can try this via Mongo Shell:
 ```
-db.node.aggregate([ 
+db.nodes.aggregate([ 
 { $match: { treeId: 1001, $and: [ { nodeId: 100 } ] } },
 {
  $graphLookup: {
-    from: "node",
+    from: "nodes",
     startWith: "$nodeId",
     connectFromField: "nodeId",
     connectToField: "parentId",
     restrictSearchWithMatch: {"treeId": 1001},
-    as: "children"
+    as: "descendants"
  }
 }
 ]);
 ```
+
 ## Schema indexes
-In MongoDB, indexes on the following fields (based on the sample data) are necessary for achieving performance:
+Indexes on the following fields (based on the sample data) are necessary for achieving performance:
 - nodeId
 - treeId
 - parentId

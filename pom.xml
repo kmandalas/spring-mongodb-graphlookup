@@ -19,10 +19,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <docker.image.prefix>kmandalas</docker.image.prefix>
         <javers-core.version>5.12.0</javers-core.version>
         <docker-compose-maven-plugin.version>4.0.0</docker-compose-maven-plugin.version>
-        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -75,24 +73,7 @@
                     </profiles>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile-maven-plugin.version}</version>
-                <configuration>
-                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                    <!--<serverId>docker-hub</serverId>-->
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <!--<phase>install</phase>-->
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
             <plugin>
                 <!-- Used to spin up an integration testing environment -->
                 <groupId>com.dkanejs.maven.plugins</groupId>
