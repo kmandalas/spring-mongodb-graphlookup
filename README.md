@@ -1,7 +1,8 @@
 ![Java CI with Maven](https://github.com/kmandalas/spring-mongodb-graphlookup/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 # Description
-This a simplistic Dockerized Spring Boot app for testing hierarchical data retrieval (and other operations) with MongoDB.
+This a simplistic Dockerized Spring Boot app for testing hierarchical data retrieval (and other operations) with MongoDB. 
+Created for the purposes of the DZone article https://dzone.com/articles/manage-hierarchical-data-in-mongodb-with-spring (currently under recview).
 
 # References
 In order to be able to follow-up better the reasoning, check the following stuff:
