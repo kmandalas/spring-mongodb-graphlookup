@@ -40,4 +40,6 @@ class NodeServiceImplTest {
                 .returns(1, from(TreeNode::getTreeId))
                 .returns("name1", from(TreeNode::getName));
     }
+
+    // add your unit tests here
 }

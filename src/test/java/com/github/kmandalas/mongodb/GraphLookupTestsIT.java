@@ -55,9 +55,11 @@ class GraphLookupTestsIT {
 
 	@DisplayName(value = "given an existing tree and nodeId, retrieve its descendants")
     @Test
-    void testSubTreeRetrieval() throws Exception {
+    void testSubTreeRetrieval() {
         TreeNode node = nodeService.getSubTree(1001, 0, null);
         assertThat(node).isNotNull();
     }
+
+    // add your integration tests (IT) here
 
 }
