@@ -2,7 +2,7 @@
 
 # Description
 This a simplistic Dockerized Spring Boot app for testing hierarchical data retrieval (and other operations) with MongoDB. 
-Created for the purposes of the DZone article https://dzone.com/articles/manage-hierarchical-data-in-mongodb-with-spring (currently under recview).
+Created for the purposes of the DZone article https://dzone.com/articles/manage-hierarchical-data-in-mongodb-with-spring.
 
 # References
 In order to be able to follow-up better the reasoning, check the following stuff:
@@ -31,15 +31,14 @@ GET	| /app/{treeId}	| retrieve a whole hierarchical structure by treeId
 GET	| /app/{treeId}/set/{nodeId}	| retrieve a sub-tree of a treeId, starting from the node with a given nodeId
 POST | under development | add a new node to a given tree (arbitrary depth)
 PUT | under development | update an existing node
-DELETE | under development | delete a node (no pruning)
+DELETE | under development | delete a node
 GET | under development | compare subtrees with [Javers](https://javers.org/)
 
 You can have a view of a whole tree from the imported tree-structure by performing an HTTP-GET operation:
-- http://localhost:8080/app/10001
+- http://localhost:8080/app/1001
 
 Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
 - http://localhost:8080/app/1001/st/100
-
 
 ## Allow cluster connectivity
 Modify your **/etc/hosts** file and add the following 3 entries:
