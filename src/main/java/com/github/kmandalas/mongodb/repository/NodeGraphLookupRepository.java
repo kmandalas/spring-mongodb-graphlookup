@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface NodeGraphLookupRepository {
 
-	Optional<List<Node>> getSubTree(int treeId, int nodeId, Long maxDepth);
+	Optional<List<Node>> getSubTree(int treeId, String nodeId, Long maxDepth);
 
 }

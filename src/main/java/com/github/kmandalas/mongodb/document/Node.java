@@ -21,7 +21,7 @@ public class Node {
   @Id
   private String id;
 
-  private int nodeId;
+  private String nodeId;
 
   private int versionId;
 
@@ -31,7 +31,7 @@ public class Node {
 
   private int treeId;
 
-  private List<Integer> parentId;
+  private List<String> parentId;
 
   private List<Node> descendants;
 

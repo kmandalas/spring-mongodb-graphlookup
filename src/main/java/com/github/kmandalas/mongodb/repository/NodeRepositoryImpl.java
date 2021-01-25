@@ -24,7 +24,7 @@ public class NodeRepositoryImpl implements NodeGraphLookupRepository {
 	}
 
 	@Override
-	public Optional<List<Node>> getSubTree(int treeId, int nodeId, Long maxDepth) {
+	public Optional<List<Node>> getSubTree(int treeId, String nodeId, Long maxDepth) {
 		final Criteria byNodeId = new Criteria("nodeId").is(nodeId);
 		final Criteria byTreeId = new Criteria("treeId").is(treeId);
 		final MatchOperation matchStage = Aggregation.match(byTreeId.andOperator(byNodeId));
