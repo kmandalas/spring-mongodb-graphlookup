@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  mongo1:
+    image: mongo:4.4
+    command: mongod --replSet rs0 --port 27017
+    ports:
+      - 27017:27017
+    networks:
+      - my-mongo-cluster
+    volumes:
+      - ./mongo-init/data-import/nodes.json:/tmp/nodes.json
+
+  mongo2:
+    image: mongo:4.4
+    command: mongod --replSet rs0 --port 27018
+    ports:
+      - 27018:27018
+    networks:
+      - my-mongo-cluster
+
+  mongo3:
+    image: mongo:4.4
+    command: mongod --replSet rs0 --port 27019
+    ports:
+      - 27019:27019
+    networks:
+      - my-mongo-cluster
+#    healthcheck:
+#      test: ["CMD", "test $$(echo 'rs.initiate().ok || rs.status().ok' | mongo --quiet) -eq 1"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+
+  mongosetup:
+    image: mongo:4.4
+    links:
+      - mongo1:mongo1
+      - mongo2:mongo2
+      - mongo3:mongo3
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    volumes:
+      - .:/scripts
+    restart: "no"
+    entrypoint: [ "bash", "/scripts/mongo_setup.sh" ]
+    networks:
+      - my-mongo-cluster
+
+  appcontainer:
+    build: .
+    image: spring-mongodb-graphlookup:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    networks:
+      - my-mongo-cluster
+
+networks:
+  my-mongo-cluster:
