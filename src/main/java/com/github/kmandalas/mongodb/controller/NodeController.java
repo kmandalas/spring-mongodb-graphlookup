@@ -13,17 +13,17 @@ public class NodeController {
     NodeService nodeService;
 
     @GetMapping(value = "/app/{treeId}")
-    public ResponseEntity<TreeNode> getFullTree(@PathVariable("treeId") int treeId) throws Exception {
+    public ResponseEntity<TreeNode> getFullTree(@PathVariable("treeId") int treeId) {
         return ResponseEntity.ok(nodeService.getFullTree(treeId));
     }
 
     @GetMapping(value = "/app/{treeId}/st/{nodeId}")
-    public ResponseEntity<TreeNode> getSubtree(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
+    public ResponseEntity<TreeNode> getSubtree(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) {
         return ResponseEntity.ok(nodeService.getSubTree(treeId, nodeId, null));
     }
 
     @DeleteMapping(value = "/app/{treeId}/{nodeId}")
-	public ResponseEntity<Void> deleteNodes(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) throws Exception {
+	public ResponseEntity<Void> deleteNodes(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId) {
     	nodeService.deleteNodes(treeId, nodeId);
     	return ResponseEntity.noContent().build();
 	}
@@ -35,8 +35,8 @@ public class NodeController {
 	}
 
 	@PutMapping(value = "/app/{treeId}/{nodeId}")
-	public ResponseEntity<Void> move(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId, @RequestParam int newParentNodeId)
-			throws Exception {
+	public ResponseEntity<Void> move(@PathVariable("treeId") int treeId, @PathVariable("nodeId") int nodeId,
+			@RequestParam int newParentNodeId) {
 		nodeService.move(treeId, nodeId , newParentNodeId);
 		return ResponseEntity.ok().build();
 	}

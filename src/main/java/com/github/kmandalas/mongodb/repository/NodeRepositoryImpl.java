@@ -15,31 +15,33 @@ import java.util.Optional;
 @Repository
 public class NodeRepositoryImpl implements NodeGraphLookupRepository {
 
-  private final MongoTemplate mongoTemplate;
+	private static final long MAX_DEPTH_SUPPORTED = 10000L;
 
-  public NodeRepositoryImpl(MongoTemplate mongoTemplate) {
-    this.mongoTemplate = mongoTemplate;
-  }
+	private final MongoTemplate mongoTemplate;
 
-  @Override
-  public Optional<List<Node>> getSubTree(int treeId, int nodeId, Long maxDepth) throws Exception {
-    final Criteria byNodeId = new Criteria("nodeId").is(nodeId);
-    final Criteria byTreeId = new Criteria("treeId").is(treeId);
-    final MatchOperation matchStage = Aggregation.match(byTreeId.andOperator(byNodeId));
+	public NodeRepositoryImpl(MongoTemplate mongoTemplate) {
+		this.mongoTemplate = mongoTemplate;
+	}
 
-    GraphLookupOperation graphLookupOperation = GraphLookupOperation.builder()
-            .from("nodes")
-            .startWith("$nodeId")
-            .connectFrom("nodeId")
-            .connectTo("parentId")
-            .restrict(new Criteria("treeId").is(treeId))
-			.maxDepth(maxDepth != null ? maxDepth : Long.MAX_VALUE)
-            .as("descendants");
+	@Override
+	public Optional<List<Node>> getSubTree(int treeId, int nodeId, Long maxDepth) {
+		final Criteria byNodeId = new Criteria("nodeId").is(nodeId);
+		final Criteria byTreeId = new Criteria("treeId").is(treeId);
+		final MatchOperation matchStage = Aggregation.match(byTreeId.andOperator(byNodeId));
 
-    Aggregation aggregation = Aggregation.newAggregation(matchStage, graphLookupOperation);
+		GraphLookupOperation graphLookupOperation = GraphLookupOperation.builder()
+				.from("nodes")
+				.startWith("$nodeId")
+				.connectFrom("nodeId")
+				.connectTo("parentId")
+				.restrict(new Criteria("treeId").is(treeId))
+				.maxDepth(maxDepth != null ? maxDepth : MAX_DEPTH_SUPPORTED)
+				.as("descendants");
 
-    List<Node> results = mongoTemplate.aggregate(aggregation, "nodes", Node.class).getMappedResults();
-    return CollectionUtils.isEmpty(results) ? Optional.empty() : Optional.of(results);
-  }
+		Aggregation aggregation = Aggregation.newAggregation(matchStage, graphLookupOperation);
+
+		List<Node> results = mongoTemplate.aggregate(aggregation, "nodes", Node.class).getMappedResults();
+		return CollectionUtils.isEmpty(results) ? Optional.empty() : Optional.of(results);
+	}
 
 }

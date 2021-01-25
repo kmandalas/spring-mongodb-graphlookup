@@ -11,15 +11,15 @@ public interface NodeService {
 
     int DEFAULT_ROOT_NODE_ID = -1;
 
-    TreeNode getFullTree(int treeId) throws Exception;
+    TreeNode getFullTree(int treeId);
 
-    TreeNode getSubTree(int treeId, int nodeId, Long maxDepth) throws Exception;
+    TreeNode getSubTree(int treeId, int nodeId, Long maxDepth);
 
-    void deleteNodes(int treeId, int nodeId) throws Exception;
+    void deleteNodes(int treeId, int nodeId);
 
 	void create(TreeNode treeNode);
 
-	void move(int treeId, int nodeId, int newParentNodeId) throws Exception;
+	void move(int treeId, int nodeId, int newParentNodeId);
 
 	static TreeNode assembleTree(final List<TreeNode> nodes, final int rootNodeId) {
         final Map<Integer, TreeNode> mapTmp = new LinkedHashMap<>();

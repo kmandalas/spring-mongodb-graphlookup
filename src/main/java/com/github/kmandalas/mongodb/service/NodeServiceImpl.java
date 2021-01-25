@@ -27,7 +27,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public TreeNode getFullTree(int treeId) throws Exception {
+    public TreeNode getFullTree(int treeId) {
         List<Node> nodes = nodeRepository.findDistinctByTreeId(treeId).orElseThrow(NotFoundException::new);
 
         List<TreeNode> treeNodes = new ArrayList<>();
@@ -43,7 +43,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
 	@Transactional(readOnly = true)
-    public TreeNode getSubTree(int treeId, int nodeId, Long maxDepth) throws Exception {
+    public TreeNode getSubTree(int treeId, int nodeId, Long maxDepth) {
         List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, null).orElseThrow(NotFoundException::new);
 
         List<TreeNode> flatList = nodes.stream()
@@ -65,9 +65,9 @@ public class NodeServiceImpl implements NodeService {
 
 	@Override
     @Transactional(rollbackFor = Exception.class)
-	public void deleteNodes(int treeId, int nodeId) throws Exception {
+	public void deleteNodes(int treeId, int nodeId)  {
 		// ... perform validations etc.
-		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, null).orElseThrow(NotFoundException::new);
+		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, 1L).orElseThrow(NotFoundException::new);
 		var target = nodes.get(0);
 		if (!CollectionUtils.isEmpty(target.getDescendants())) {
 			target.getDescendants().forEach(n -> n.setParentId(target.getParentId()));
@@ -95,18 +95,11 @@ public class NodeServiceImpl implements NodeService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void move(int treeId, int nodeId, int newParentNodeId) throws Exception {
+	public void move(int treeId, int nodeId, int newParentNodeId) {
 		// ... perform validations etc.
-		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, 1L).orElseThrow(NotFoundException::new);
-		var target = nodes.get(0);
-
-		if (!CollectionUtils.isEmpty(target.getDescendants())) {
-			target.getDescendants().forEach(n -> n.setParentId(target.getParentId()));
-			nodeRepository.saveAll(target.getDescendants());
-		}
-
-		target.setParentId(List.of(newParentNodeId));
-		nodeRepository.save(target);
+		var node = nodeRepository.findDistinctByTreeIdAndNodeId(treeId, nodeId).orElseThrow(NotFoundException::new);
+		node.setParentId(List.of(newParentNodeId));
+		nodeRepository.save(node);
 	}
 
 }
