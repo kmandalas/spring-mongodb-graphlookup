@@ -84,6 +84,7 @@ mvn spring-boot:run
 ### Dockerized
 Alternatively, if you want to start everything with docker-compose, execute the following:
 ```
+mvn clean package
 docker-compose -f docker-compose-all.yml build
 docker-compose -f docker-compose-all.yml up
 ```
