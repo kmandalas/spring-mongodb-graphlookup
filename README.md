@@ -49,10 +49,11 @@ Modify your **/etc/hosts** file and add the following 3 entries:
 - 127.0.0.1 mongo3
 
 ## Build/Test
-Run Integration Tests by executing:
+Run the Integration Tests with:
 ```    
 mvn clean verify
 ```
+With the help of `docker-compose-maven-plugin` this will start a MongoDB replica set and then the integration tests will be executed.
 
 ## Spin-up a MongoDB replica set
 Begin by executing:
@@ -73,9 +74,18 @@ This way the containers are disposed and cleanup is performed.
 
 
 ## Run the application
-Start the application with:
+
+### Non-dockerized
+If you already have started MongoDB replica set, you can start the application with:
 ```
 mvn spring-boot:run
+```
+
+### Dockerized
+Alternatively, if you want to start everything with docker-compose, execute the following:
+```
+docker-compose -f docker-compose-all.yml build
+docker-compose -f docker-compose-all.yml up
 ```
    
 # Additional information
