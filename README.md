@@ -40,53 +40,62 @@ You can have a view of a whole tree from the imported tree-structure by performi
 Then you may retrieve sub-trees by performing am HTTP-GET operation on the following URL:
 - http://localhost:8080/app/1001/st/100
 
+## How to run
+You can try this app with the following 2 ways:
+
+- by spinning a MongoDB cluster with `docker-compose.yml` and run the Spring-boot app standalone (non-dockerized)
+- by using `docker-compose-all.yml` and bring up both the MongoDB cluster and the app all-together (dockerized)
+
 ## Allow cluster connectivity
+This step is necessary if you want to run the Spring-boot app standalone and/or to be able to execute Integration tests.
+
 Modify your **/etc/hosts** file and add the following 3 entries:
 
 - 127.0.0.1 mongo1
 - 127.0.0.1 mongo2
 - 127.0.0.1 mongo3
 
-## Build/Test
-Run the Integration Tests with:
+### Build/Test
+First of all you need to build the app with:
 ```    
-mvn clean verify
+mvn clean build
+```
+If you want to execute Integration tests, go with:
+```    
+mvn verify
 ```
 With the help of `docker-compose-maven-plugin` this will start a MongoDB replica set and then the integration tests will be executed.
 
-## Spin-up a MongoDB replica set
-Begin by executing:
+### Run the Spring-boot app non-dockerized
+Bring up the MongoDB cluster with:
 ```
 docker-compose up
 ```
-
-Once the cluster is up, load the sample data, with:
-```
-docker-compose exec mongo1 mongoimport --host mongo1 --db test --collection nodes --type json --file /tmp/nodes.json --jsonArray
-```
-
-To bring down the cluster, execute:
-```
-docker-compose down -v
-```
-This way the containers are disposed and cleanup is performed.
-
-
-## Run the application
-
-### Non-dockerized
-If you already have started MongoDB replica set, you can start the application with:
+Run the application with:
 ```
 mvn spring-boot:run
 ```
 
-### Dockerized
+### Run the Spring-boot app dockerized
 Alternatively, if you want to start everything with docker-compose, execute the following:
 ```
 mvn clean package
 docker-compose -f docker-compose-all.yml build
 docker-compose -f docker-compose-all.yml up
 ```
+
+### Load sample data
+Once the cluster is up, load the sample data, with:
+```
+docker-compose exec mongo1 mongoimport --host mongo1 --db test --collection nodes --type json --file /tmp/nodes.json --jsonArray
+```
+
+###
+To bring down all the containers, execute:
+```
+docker-compose down -v --remove-orphans
+```
+This way the containers are disposed and cleanup is performed.
    
 # Additional information
 
