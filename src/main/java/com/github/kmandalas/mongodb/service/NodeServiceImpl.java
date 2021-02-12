@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log
@@ -43,7 +40,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
 	@Transactional(readOnly = true)
-    public TreeNode getSubTree(int treeId, int nodeId, Long maxDepth) {
+    public TreeNode getSubTree(int treeId, String nodeId, Long maxDepth) {
         List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, null).orElseThrow(NotFoundException::new);
 
         List<TreeNode> flatList = nodes.stream()
@@ -65,7 +62,7 @@ public class NodeServiceImpl implements NodeService {
 
 	@Override
     @Transactional(rollbackFor = Exception.class)
-	public void deleteNodes(int treeId, int nodeId)  {
+	public void deleteNodes(int treeId, String nodeId)  {
 		// ... perform validations etc.
 		List<Node> nodes = nodeRepository.getSubTree(treeId, nodeId, 1L).orElseThrow(NotFoundException::new);
 		var target = nodes.get(0);
@@ -87,7 +84,7 @@ public class NodeServiceImpl implements NodeService {
     	node.setName(treeNode.getName());
     	node.setVersionId(treeNode.getVersionId());
     	node.setEntityType(treeNode.getEntityType());
-    	node.setNodeId(new Random().nextInt()); // set a unique nodeId based on your policy
+    	node.setNodeId(UUID.randomUUID().toString()); // set a unique nodeId based on your policy
 
     	nodeRepository.save(node);
     	// iterate children and persist them as well...
@@ -95,7 +92,7 @@ public class NodeServiceImpl implements NodeService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void move(int treeId, int nodeId, int newParentNodeId) {
+	public void move(int treeId, String nodeId, String newParentNodeId) {
 		// ... perform validations etc.
 		var node = nodeRepository.findDistinctByTreeIdAndNodeId(treeId, nodeId).orElseThrow(NotFoundException::new);
 		node.setParentId(List.of(newParentNodeId));

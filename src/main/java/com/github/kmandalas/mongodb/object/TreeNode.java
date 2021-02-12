@@ -21,7 +21,7 @@ import java.util.List;
 public class TreeNode implements Serializable {
 
     @Id
-    private int nodeId;
+    private String nodeId;
 
     private int versionId;
 
@@ -33,7 +33,7 @@ public class TreeNode implements Serializable {
     private int treeId;
 
     @DiffIgnore
-    private List<Integer> parentId;
+    private List<String> parentId;
 
     private List<TreeNode> children;
 

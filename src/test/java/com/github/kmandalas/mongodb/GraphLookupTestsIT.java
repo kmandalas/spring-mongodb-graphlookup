@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
@@ -29,14 +30,16 @@ class GraphLookupTestsIT {
     @Autowired
 	NodeRepository nodeRepository;
 
+    String parentUuid = UUID.randomUUID().toString();
+
     @BeforeAll
 	@Transactional
 	void populate() {
 		Node treeNode = new Node();
 		treeNode.setTreeId(1001);
-		treeNode.setNodeId(0);
+		treeNode.setNodeId(parentUuid);
 		treeNode.setName("oak");
-		treeNode.setParentId(List.of(-1));
+		treeNode.setParentId(List.of("-1"));
 		treeNode.setVersionId(new Random().nextInt());
 		treeNode.setEntityType(EntityType.type_1);
 
@@ -44,9 +47,9 @@ class GraphLookupTestsIT {
 
 		Node leafNode = new Node();
 		leafNode.setTreeId(1001);
-		leafNode.setNodeId(5);
+		leafNode.setNodeId(UUID.randomUUID().toString());
 		leafNode.setName("leaf");
-		leafNode.setParentId(List.of(0));
+		leafNode.setParentId(List.of(parentUuid));
 		leafNode.setVersionId(new Random().nextInt());
 		leafNode.setEntityType(EntityType.type_5);
 
@@ -56,7 +59,7 @@ class GraphLookupTestsIT {
 	@DisplayName(value = "given an existing tree and nodeId, retrieve its descendants")
     @Test
     void testSubTreeRetrieval() {
-        TreeNode node = nodeService.getSubTree(1001, 0, null);
+        TreeNode node = nodeService.getSubTree(1001, parentUuid, null);
         assertThat(node).isNotNull();
     }
 
